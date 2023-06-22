@@ -1,24 +1,23 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Banner from "./components/Banner";
+import Nav from './components/Nav';
+import MenuItem from './components/MenuItem';
 
 function App() {
+
+  let items = [["Name","desc","./assets/image.svg"]
+  ,["Name","desc","./assets/image.svg"]]
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="flex flex-col items-center bg-[#212121] h-full min-h-[100vh] w-full">
+      <Nav/>
+      <div className=" items-center justify-center flex-row flex-wrap ">
+      <Banner/>
+      <div className="flex flex-row flex-wrap items-center justify-center">
+        {items.map((item) => {
+          return <MenuItem name={item[0]} img={item[3]} desc={item[1]}/>})}
+      </div>
+      </div>
     </div>
   );
 }
