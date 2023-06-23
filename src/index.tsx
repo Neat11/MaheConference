@@ -7,6 +7,7 @@ import { Route, Link, BrowserRouter, Routes } from 'react-router-dom'
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import Scanner from './Scanner';
+import Succes from './Succes';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -18,6 +19,7 @@ root.render(
       {/* <Route path="/" element={<App/>} /> */}
       <Route path="/" element={<Login/>} />
       <Route path="/scanner" element={<Scanner/>} />
+      <Route path="/success" element={<Succes/>} />
     </Routes>
     </BrowserRouter>
   </React.StrictMode>
