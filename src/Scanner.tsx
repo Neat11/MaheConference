@@ -24,6 +24,43 @@ export default function Scanner() {
   };
 
   getUser();
+
+
+
+  const onScan = (data: string | null) => {
+ 
+    console.log(data)
+    var jsonData: any= {}
+    if (data) {
+      try{
+        jsonData = JSON.parse(data);
+      }
+      catch(err){
+        alert("Invalid QR Code");
+        return;
+      }
+      if (jsonData.JWT === "") {
+        alert("Invalid QR Code");
+      } else {
+        fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/markAttendance`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            JWT: jsonData.JWT,
+          }),
+        }).then((res) => {
+          if (res.status === 200) {
+            alert("Attendance Marked Successfully");
+          } else {
+            alert(JSON.stringify(res.json().then((data) => data.message)));
+          }
+        });
+      }
+    }
+  };
   return (
     <div className="h-screen w-screen bg-[#212121] flex flex-col items-center p-20">
       <div>
@@ -40,35 +77,9 @@ export default function Scanner() {
                 top: "-25vw",
               }}
               scanDelay={2000}
-              onDecode={(data) => {
-                var jsonData = JSON.parse(data);
-                if (jsonData.JWT === "") {
-                  alert("Invalid QR Code");
-                } else {
-                  fetch(
-                    `${process.env.REACT_APP_BACKEND_BASE_URL}/markAttendance`,
-                    {
-                      method: "POST",
-                      headers: {
-                        "Content-Type": "application/json",
-                      },
-                      credentials: "include",
-                      body: JSON.stringify({
-                        JWT: jsonData.JWT,
-                      }),
-                    }
-                  ).then((res) => {
-                    if (res.status === 200) {
-                      alert("Attendance Marked Successfully");
-                    } else {
-                      alert(
-                        JSON.stringify(res.json().then((data) => data.message))
-                      );
-                    }
-                  });
-                }
-              }}
+              onDecode={onScan}
               onError={(err) => console.error(err)}
+              onResult={(result) => console.log(result)}
             />
           </div>
         </div>
