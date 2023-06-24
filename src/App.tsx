@@ -1,24 +1,33 @@
-import React from 'react';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
 import Banner from "./components/Banner";
-import Nav from './components/Nav';
-import MenuItem from './components/MenuItem';
+import Nav from "./components/Nav";
+import MenuItem from "./components/MenuItem";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Scanner from "./Scanner";
+import Login from "./Login";
+import Succes from "./Succes";
+import Signup from "./signup";
 
 function App() {
+  // let items = [["Name","desc","./assets/image.svg"]
+  // ,["Name","desc","./assets/image.svg"]]
 
-  let items = [["Name","desc","./assets/image.svg"]
-  ,["Name","desc","./assets/image.svg"]]
+  //   const [user, setUser] = useState<any>(null);
+
+  //   if(!user){
+  //     window.location.replace('/login')
+  //   }
+
   return (
-    <div className="flex flex-col items-center bg-[#212121] h-full min-h-[100vh] w-full">
-      <Nav/>
-      <div className=" items-center justify-center flex-row flex-wrap ">
-      <Banner/>
-      <div className="flex flex-row flex-wrap items-center justify-center">
-        {items.map((item) => {
-          return <MenuItem name={item[0]} img={item[3]} desc={item[1]}/>})}
-      </div>
-      </div>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Scanner />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/success" element={<Succes />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

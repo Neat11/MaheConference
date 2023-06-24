@@ -2,26 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import Login from './Login';
-import { Route, Link, BrowserRouter, Routes } from 'react-router-dom'
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
-import Scanner from './Scanner';
-import Succes from './Succes';
+
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-    <Routes>
-      {/* <Route path="/" element={<App/>} /> */}
-      <Route path="/" element={<Login/>} />
-      <Route path="/scanner" element={<Scanner/>} />
-      <Route path="/success" element={<Succes/>} />
-    </Routes>
-    </BrowserRouter>
+   <App/>
   </React.StrictMode>
 );
 
