@@ -25,7 +25,7 @@ export default function Signup() {
       )
       const data = await response.json();
       const status = await response.status;
-        if (status !== 200) {
+        if (status === 200) {
             alert("user created successfully")
             window.location.replace('/login')
         }else{
