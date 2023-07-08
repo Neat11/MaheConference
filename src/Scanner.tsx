@@ -9,7 +9,12 @@ export default function Scanner() {
     console.log(process.env.REACT_APP_BACKEND_BASE_URL);
     const response = await fetch(
       `${process.env.REACT_APP_BACKEND_BASE_URL}/validate`,
-     
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      }
     );
     const data = await response.json();
     const status = await response.status;
