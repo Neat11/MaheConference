@@ -9,12 +9,7 @@ export default function Scanner() {
     console.log(process.env.REACT_APP_BACKEND_BASE_URL);
     const response = await fetch(
       `${process.env.REACT_APP_BACKEND_BASE_URL}/validate`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-      }
+     
     );
     const data = await response.json();
     const status = await response.status;
@@ -40,7 +35,7 @@ export default function Scanner() {
     const data = await response.json();
     const status = await response.status;
     console.log(data);
-    setAttendances(data);
+    setAttendances(data['attendances']);
     console.log(status);
     if (status !== 200) {
       alert("Oops! Something went wrong: "+ JSON.stringify(data.message));
@@ -114,6 +109,14 @@ export default function Scanner() {
         <p className="text-white font-bold text-[100%] text-center m-14">
           Align Your Camera with the QR code to proceed
         </p>
+        <div>
+          {attendances.map((item: any) => {
+            // return (<div><p>{item[0]}</p>
+            // <p>{item[2]}</p></div>)
+            if (typeof item[1]==="string")
+            return (<p className={`m-4 ${item[2]? `${((Date.now()-new Date(item[1]).getTime())<900000)? "text-black bg-green-700":"text-gray-600"}`:"text-gray-600"}`}>{item[0]}</p>)
+          })}
+        </div>
       </div>
       <button
         onClick={() => {
