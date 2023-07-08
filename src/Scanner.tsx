@@ -1,7 +1,10 @@
 import { QrScanner } from "@yudiel/react-qr-scanner";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export default function Scanner() {
+
+  const [attendances, setAttendances] = useState<any[]>([]);
+  const [user, setUser] = useState<any>({});
   const getUser = async () => {
     console.log(process.env.REACT_APP_BACKEND_BASE_URL);
     const response = await fetch(
@@ -16,6 +19,7 @@ export default function Scanner() {
     const data = await response.json();
     const status = await response.status;
     console.log(data);
+    setUser(data);
     console.log(status);
     if (status !== 200) {
       alert("Please Login");
@@ -23,8 +27,30 @@ export default function Scanner() {
     }
   };
 
-  getUser();
+  const getAttendances = async () => {
+    const response = await fetch(
+      `${process.env.REACT_APP_BACKEND_BASE_URL}/getAttendance`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      }
+    );
+    const data = await response.json();
+    const status = await response.status;
+    console.log(data);
+    setAttendances(data);
+    console.log(status);
+    if (status !== 200) {
+      alert("Oops! Something went wrong: "+ JSON.stringify(data.message));
+    }
+  };
 
+  useEffect(() => {
+      getUser();
+      getAttendances();
+  },[]);
 
 
   const onScan = (data: string | null) => {
