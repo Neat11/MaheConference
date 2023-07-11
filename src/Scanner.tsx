@@ -81,16 +81,18 @@ export default function Scanner() {
           if (res.status === 200) {
             alert("Attendance Marked Successfully");
           } else {
-            alert(JSON.stringify(res.json().then((data) => data.message)));
+            alert("attendance already marked");
           }
         });
       }
     }
+    window.location.reload();
   };
   return (
     <div className="h-screen w-screen bg-[#212121] flex flex-col items-center p-20">
       <div>
         <p className="text-white font-bold text-[150%]">Scan The QR Code</p>
+        <p className="text-white">v1.0.0</p>
       </div>
       <div className="w-screen h-1/2 md:w-1/2 lg:w-1/4 flex justify-center items-center">
         <div className="w-3/4 h-3/4 p-[5%] bg-slate-500 rounded-xl flex justify-center items-center">
