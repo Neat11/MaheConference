@@ -86,6 +86,7 @@ export default function Scanner() {
         });
       }
     }
+    window.location.replace("/");
     window.location.reload();
   };
   return (
