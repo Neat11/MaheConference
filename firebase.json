@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "icrafmn-2023",
     "public": "build",
     "ignore": [
       "firebase.json",

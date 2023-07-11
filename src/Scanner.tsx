@@ -117,7 +117,8 @@ export default function Scanner() {
         <p className="text-white font-bold text-[100%] text-center m-14">
           Align Your Camera with the QR code to proceed
         </p>
-        <div className="flex justify-center items-center">
+        <div className="flex justify-center items-center flex-col text-white">
+          <h1 className="text-2xl">{user?.user.email}</h1>
           <button
             onClick={() => {
               fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/logout`, {
