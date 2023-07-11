@@ -4,7 +4,6 @@ import React, { useEffect, useRef, useState } from "react";
 export default function Scanner() {
   const [attendances, setAttendances] = useState<any[]>([]);
   const [user, setUser] = useState<any>(null);
-  const isfullfilled = useRef(false);
   const getUser = async () => {
     console.log(process.env.REACT_APP_BACKEND_BASE_URL);
     const response = await fetch(
@@ -48,14 +47,12 @@ export default function Scanner() {
   };
 
   useEffect(() => {
-    if(!isfullfilled.current){
       getUser();
       getAttendances();
       //reload the page every 5 minutes
       setTimeout(() => {
         window.location.reload();
       }, 1000*60*5);
-    }
     }, []);
 
   const onScan = (data: string | null) => {
