@@ -90,14 +90,15 @@ export default function Scanner() {
     window.location.reload();
   };
   return (
-    <div className="h-screen w-screen bg-[#212121] flex flex-col items-center p-20">
+    
+    <div className="h-full w-screen bg-[#212121] flex flex-col items-center p-20">
       <div>
         <p className="text-white font-bold text-[150%]">Scan The QR Code</p>
         <p className="text-white">v1.0.0</p>
       </div>
       <div className="w-screen h-1/2 md:w-1/2 lg:w-1/4 flex justify-center items-center">
         <div className="w-3/4 h-3/4 p-[5%] bg-slate-500 rounded-xl flex justify-center items-center">
-          <div className="h-full w-full overflow-hidden">
+          <div className=" max-h-60  w-full overflow-hidden">
             <QrScanner
               containerStyle={{
                 width: "120vw",
@@ -118,7 +119,7 @@ export default function Scanner() {
           Align Your Camera with the QR code to proceed
         </p>
         <div className="flex justify-center items-center flex-col text-white">
-          <h1 className="text-2xl">{user?.user.email}</h1>
+          <h1 className="text-xl">{user?.user.email}</h1>
           <button
             onClick={() => {
               fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/logout`, {
@@ -139,7 +140,7 @@ export default function Scanner() {
             if (typeof item.created_at === "string")
               return (
                 <div
-                  className={`p-1 border-solid border-black border-2 justify-center items-center flex m-2 rounded  ${
+                  className={`p-1 border-solid border-black border-2 justify-center items-center flex m-2 rounded text-center ${
                     item.is_food
                       ? `${
                           Date.now() - new Date(item.created_at).getTime() <
@@ -147,7 +148,7 @@ export default function Scanner() {
                             ? "text-black bg-green-700"
                             : "text-black bg-gray-600"
                         }`
-                      : "text-gray-600"
+                      : "text-black bg-gray-600 "
                   }`}
                 >
                   <p className="text-xl">{item.name}</p>

@@ -8,7 +8,6 @@ export default function Signup() {
   const [badresponse, setbadresponse] = useState(false);
   
   async function submit() {
-    alert("submit clicked")
       const response = await fetch(
         `${process.env.REACT_APP_BACKEND_BASE_URL}/signup`,
         {
