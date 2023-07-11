@@ -1,10 +1,10 @@
 import { QrScanner } from "@yudiel/react-qr-scanner";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 export default function Scanner() {
-
   const [attendances, setAttendances] = useState<any[]>([]);
-  const [user, setUser] = useState<any>({});
+  const [user, setUser] = useState<any>(null);
+  const isfullfilled = useRef(false);
   const getUser = async () => {
     console.log(process.env.REACT_APP_BACKEND_BASE_URL);
     const response = await fetch(
@@ -40,28 +40,31 @@ export default function Scanner() {
     const data = await response.json();
     const status = await response.status;
     console.log(data);
-    setAttendances(data['attendances']);
+    setAttendances(data["attendances"]);
     console.log(status);
     if (status !== 200) {
-      alert("Oops! Something went wrong: "+ JSON.stringify(data.message));
+      alert("Oops! Something went wrong: " + JSON.stringify(data.message));
     }
   };
 
   useEffect(() => {
+    if(!isfullfilled.current){
       getUser();
       getAttendances();
-  },[]);
-
+      //reload the page every 5 minutes
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000*60*5);
+    }
+    }, []);
 
   const onScan = (data: string | null) => {
- 
-    console.log(data)
-    var jsonData: any= {}
+    console.log(data);
+    var jsonData: any = {};
     if (data) {
-      try{
+      try {
         jsonData = JSON.parse(data);
-      }
-      catch(err){
+      } catch (err) {
         alert("Invalid QR Code");
         return;
       }
@@ -114,29 +117,45 @@ export default function Scanner() {
         <p className="text-white font-bold text-[100%] text-center m-14">
           Align Your Camera with the QR code to proceed
         </p>
+        <div className="flex justify-center items-center">
+          <button
+            onClick={() => {
+              fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/logout`, {
+                credentials: "include",
+              })
+                .then((response) => response.json())
+                .then((data) => {
+                  window.location.replace("/login");
+                });
+            }}
+            className="text-white border-white text-[70%] border-2 px-4 py-1 m-3 bg-black shadow-[-4px_4px_0_rgba(150,239,27,1)]"
+          >
+            Log Out
+          </button>
+        </div>
         <div>
-          {attendances.map((item: any) => {
-            // return (<div><p>{item[0]}</p>
-            // <p>{item[2]}</p></div>)
-            if (typeof item[1]==="string")
-            return (<p className={`m-4 ${item[2]? `${((Date.now()-new Date(item[1]).getTime())<900000)? "text-black bg-green-700":"text-gray-600"}`:"text-gray-600"}`}>{item[0]}</p>)
+          {attendances?.map((item: any) => {
+            if (typeof item.created_at === "string")
+              return (
+                <div
+                  className={`p-1 border-solid border-black border-2 justify-center items-center flex m-2 rounded  ${
+                    item.is_food
+                      ? `${
+                          Date.now() - new Date(item.created_at).getTime() <
+                          900000
+                            ? "text-black bg-green-700"
+                            : "text-black bg-gray-600"
+                        }`
+                      : "text-gray-600"
+                  }`}
+                >
+                  <p className="text-xl">{item.name}</p>
+                </div>
+              );
+            return <p>{JSON.stringify(typeof item.created_at === "string")}</p>;
           })}
         </div>
       </div>
-      <button
-        onClick={() => {
-          fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/logout`, {
-            credentials: "include",
-          })
-            .then((response) => response.json())
-            .then((data) => {
-              window.location.replace("/login");
-            });
-        }}
-        className="text-white border-white text-[70%] border-2 px-4 py-1 m-3 bg-black shadow-[-4px_4px_0_rgba(150,239,27,1)]"
-      >
-        Log Out
-      </button>
     </div>
   );
 }
